@@ -1,0 +1,98 @@
+//========================================================================================================
+//                                       CSLIDER PLUGIN
+//========================================================================================================
+.csl {
+	&-frame,
+	&-track,
+	&-item {
+		box-sizing: border-box;
+	}
+    &-frame {
+		position: relative;
+
+		&.notrans * {
+			transition: 0ms !important;
+		}
+		&.csl-height-fixed {
+			container-type: size;
+		}
+		&.csl-height-auto {
+			display: grid;
+		}
+		&.csl-swipe {
+			user-select: none;
+		}
+    }
+    &-track {
+		display: flex;
+		min-width: initial;
+
+		.csl-height-fixed & {
+			position: absolute;
+			height: 100%;
+		}
+		.csl-height-auto & {
+			align-items: center;
+		}
+		.csl-vertical > & {
+			position: absolute;
+			flex-direction: column;
+			height: auto;
+			width: 100%;
+		}
+    }
+    &-item {
+        max-width: 100cqw !important;
+		flex-shrink: 0;
+		transition: var(--transition-speed);
+
+		.csl-height-fixed & {
+			max-height: 100cqh !important;
+		}
+		.csl-horizontal .csl-sized & {
+			width: var(--csl-size, auto);
+			translate: var(--csl-translate) 0;
+		}
+		.csl-vertical .csl-sized & {
+			height: var(--csl-size, auto);
+			translate: 0 var(--csl-translate);
+		}
+		.csl-focus &:not(.csl-current) {
+			cursor: pointer;
+		}
+    }
+    &-button {
+		cursor: pointer;
+
+		.csl-frame & {
+			position: absolute;
+			z-index: 100;
+		}
+		.csl-frame:not(.csl-vertical) & {
+			top: 50%;
+			translate: 0 -50%;
+
+			&-prev {
+				left: 0;
+			}
+			&-next {
+				right: 0;
+				translate: 0 -50%;
+			}
+		}
+		.csl-frame.csl-vertical & {
+			left: 50%;
+			translate: -50% 0;
+			rotate: 90deg;
+
+			&-prev {
+				top: 0;
+			}
+			&-next {
+				bottom: 0;
+			}
+		}
+    }
+}
+
+

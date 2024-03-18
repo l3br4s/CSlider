@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>CSSLIDER</title>
+
+    <link rel="stylesheet" href="css/cslider.min.css">
+	<link rel="stylesheet" href="css/demo.min.css">
+
+	<script type="module" defer>
+		import CSlider from './js/cslider.js';
+
+		const test = new CSlider('#test', {
+			buttonWrapperPrev: '.buttonwrapper',
+			buttonWrapperNext: '.buttonwrapper',
+			buttonTextPrev: 'PREV',
+			buttonTextNext: 'NEXT',
+			afterTransition: () => {console.log('after transition!')},
+		});
+		const test2 = new CSlider('#test-2', {
+			startPosition: 2,
+			singleMode: true,
+			vertical: true,
+			fixedHeight: false,
+		});
+
+		test.destroy();
+    </script>
+
+</head>
+<body>
+
+    <div id="test" data-slider="test">
+        <article style="width: 450px; height: 120px">
+            0
+            <div></div>
+        </article>
+        <article style="width: 300px; height: 200px">
+            1
+            <div></div>
+        </article>
+        <article style="width: 140px; height: 100px">
+            2
+            <div></div>
+        </article>
+        <article style="width: 220px; height: 150px">
+            3
+            <div></div>
+        </article>
+        <article style="width: 450px; height: 320px">
+            4
+            <div></div>
+        </article>
+        <article style="width: 300px; height: 90px">
+            5
+            <div></div>
+        </article>
+        <article style="width: 140px; height: 110px">
+            6
+            <div></div>
+        </article>
+        <article style="width: 220px; height: 30px">
+            7
+            <div></div>
+        </article>
+    </div>
+
+	<div class="buttonwrapper"></div>
+
+    <div id="test-2" data-slider="test">
+        <article style="width: 450px; height: 200px;">
+            0
+            <div></div>
+        </article>
+        <article style="width: 300px">
+            1
+            <div></div>
+        </article>
+        <article style="width: 140px">
+            2
+            <div></div>
+        </article>
+        <article style="width: 220px">
+            3
+            <div></div>
+        </article>
+    </div>
+
+</body>
+</html>

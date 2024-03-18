@@ -14,21 +14,25 @@ Copy `cslider.min.js` and `cslider.min.css` into your project.
 
 In the `<head>` of your HTML, add the following:
 
-	<link rel="stylesheet" href="css/cslider.min.css">
-	<script type="module" defer>
-	  import CSlider from './js/cslider.min.js';
-	  const slider = new CSlider('.slider_element', options);
-	</script>`
+```js
+<link rel="stylesheet" href="css/cslider.min.css">
+<script type="module" defer>
+	import CSlider from './js/cslider.min.js';
+	const slider = new CSlider('.slider_element', options);
+</script>
+```
 
 where `.slider_element` is the CSS selector for your slider element, and `options` is an optional object containing [options](#options) and [callbacks](#callbacks) for the slider. Replace file paths as needed.  
   
 In the `<body>` of your HTML, add your slides as direct children of the `.slider_element` :
 
-	<div class="slider_element">
-	  <div>Slide 1</div>
-	  <div>Slide 2</div>
-	  <div>Slide 3</div>
-	</div>
+```html
+<div class="slider_element">
+	<div>Slide 1</div>
+	<div>Slide 2</div>
+	<div>Slide 3</div>
+</div>
+```
 
 ## Styling
 
@@ -112,11 +116,13 @@ CSlider will duplicate slides as necessary such that there are always enough to 
 
 Callbacks can be defined as properties on the options object:
 
-	slider = new CSlider('.slider_element', {
-	  onReady: () => {
-	    // do something
-	  }
-	})
+```js
+slider = new CSlider('.slider_element', {
+	onReady: () => {
+		// do something
+	}
+})
+```
 
 -	**beforeMove()**  
 	Called before the start of each slider navigation.
@@ -133,7 +139,9 @@ Callbacks can be defined as properties on the options object:
 
 Use the following methods to control the slider after creation, e.g.
 
-	slider.slideTo(2); // move to the third slide (of index 2)
+```js
+slider.slideTo(2); // move to the third slide (of index 2)
+```
 
 -	**autoplayStart()**  
 	Start autoplay.

@@ -254,7 +254,7 @@ export default class CSlider {
 						prevButton.setAttribute('aria-label', 'Previous slide');
 						if (this.options.arrowKeys === true) prevButton.setAttribute('tabindex', '-1');
 						prevButton.innerHTML = this.options.buttonTextPrev;
-						buttonWrapperPrev.appendChild(prevButton);
+						this.prevButton = buttonWrapperPrev.appendChild(prevButton);
 						prevButton.addEventListener('click', () => {
 							this.prev();
 						});
@@ -270,7 +270,7 @@ export default class CSlider {
 						nextButton.setAttribute('aria-label', 'Next slide');
 						if (this.options.arrowKeys === true) nextButton.setAttribute('tabindex', '-1');
 						nextButton.innerHTML = this.options.buttonTextNext;
-						buttonWrapperNext.appendChild(nextButton);
+						this.nextButton = buttonWrapperNext.appendChild(nextButton);
 						nextButton.addEventListener('click', () => {
 							this.next();
 						})
@@ -336,8 +336,9 @@ export default class CSlider {
 
 
 			// ========================================================================== ON WINDOW RESIZE
-			let resizeTimer;
-			window.addEventListener('resize', () => {
+			this.resizer = () => {
+				console.log('resize');
+				let resizeTimer;
 				clearTimeout(resizeTimer);
 				resizeTimer = setTimeout(() => {
 					this.frame.classList.add('notrans');
@@ -355,7 +356,8 @@ export default class CSlider {
 						})
 					})
 				}, 100)
-			});
+			}
+			window.addEventListener('resize', this.resizer);
 		}
 
 		if (document.readyState === "complete") {
@@ -669,8 +671,10 @@ export default class CSlider {
 
 	// ========================================================================== DESTROY
 	destroy() {
+		this.nextButton.remove();
+		this.prevButton.remove();
 		this.frame.insertAdjacentElement('beforebegin', this.originalFrame);
 		this.frame.remove();
+		window.removeEventListener('resize', this.resizer);
 	}
-
 }

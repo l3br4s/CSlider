@@ -1,4 +1,6 @@
-# CSlider: Dependency-free repeating slider with full style control
+# CSlider: Dependency-free slider with full style control
+
+CSlider is a pure JS infinite slider with minimal CSS overhead and no default theme.
 
 - [Usage](#usage)
 - [Styling](#styling)

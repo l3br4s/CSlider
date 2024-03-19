@@ -17,8 +17,8 @@ In the `<head>` of your HTML, add the following:
 ```js
 <link rel="stylesheet" href="css/cslider.min.css">
 <script type="module" defer>
-	import CSlider from './js/cslider.min.js';
-	const slider = new CSlider('.slider_element', options);
+  import CSlider from './js/cslider.min.js';
+  const slider = new CSlider('.slider_element', options);
 </script>
 ```
 
@@ -28,9 +28,9 @@ In the `<body>` of your HTML, add your slides as direct children of the `.slider
 
 ```html
 <div class="slider_element">
-	<div>Slide 1</div>
-	<div>Slide 2</div>
-	<div>Slide 3</div>
+  <div>Slide 1</div>
+  <div>Slide 2</div>
+  <div>Slide 3</div>
 </div>
 ```
 
@@ -50,10 +50,10 @@ Use the following classes to style your slides:
 Additionally, use the following data-attributes to determine the position of a slide:
 
 -	`[data-csl-oindex]` - the original index of the slide before duplication.
--	`[data-csl-order]` - the current absolute position of the slide, from left to right (top to bottom for vertical sliders). The first slide has an order of 0. Note that this is not the same as the index of the slide in the DOM.
--	`[data-csl-relative]` - the current position of the slide, relative to the current slide. The current slide has a relative position of 0. Slides to the right (top for vertical sliders) of the current slide have positive relative positions. Slides to the left (bottom for vertical sliders) of the current slide have negative relative positions.
+-	`[data-csl-order]` - the current **visual** position of the slide, from left to right (top to bottom for vertical sliders). The first slide has an order of 0. Note that this is not the same as the index of the slide in the DOM.
+-	`[data-csl-relative]` - the current **visual** position of the slide, relative to the current slide. The current slide has a relative position of 0. Slides to the right (top for vertical sliders) of the current slide have positive relative positions. Slides to the left (bottom for vertical sliders) of the current slide have negative relative positions.
 
-Or use the corresponding CSS custom properties `--csl-oindex`, `--csl-order`, and `--csl-relative` to do calculations.
+The same values also avalaible as corresponding CSS custom properties `--csl-oindex`, `--csl-order`, and `--csl-relative` for use in CSS calculations.
 
 CSlider will duplicate slides as necessary such that there are always enough to ensure smooth transitions. To access the index of a slide after duplication, simply use the `:nth-child()` pseudo-class (starts at 1).  
 **Note:** the index refers to the slide's position in the DOM, which does not change when the slider moves, since no deletion or duplication is done on move. However, resizing the viewport may append additional slides if necessary.
@@ -118,9 +118,9 @@ Callbacks can be defined as properties on the options object:
 
 ```js
 slider = new CSlider('.slider_element', {
-	onReady: () => {
-		// do something
-	}
+  onReady: () => {
+    // do something
+  }
 })
 ```
 

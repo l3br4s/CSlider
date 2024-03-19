@@ -68,7 +68,7 @@
 			position: absolute;
 			z-index: 100;
 		}
-		.csl-frame:not(.csl-vertical) & {
+		.csl-frame.csl-horizontal & {
 			top: 50%;
 			translate: 0 -50%;
 

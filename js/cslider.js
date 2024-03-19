@@ -169,6 +169,7 @@ export default class CSlider {
 
 		// ========================================================================== FOCUS ON CLICK
 		const focusOnSlide = (e, index) => {
+			console.log(this.swiping);
 			if (e.button === 0 && !this.swiping) {
 				this.slideTo(index);
 			}
@@ -448,6 +449,7 @@ export default class CSlider {
 							this.track?.removeEventListener(listeners.move, swipeMove);
 							document.removeEventListener(listeners.end, swipeEnd);
 							this.track?.removeEventListener(listeners.cancel, swipeEnd);
+							this.swiping = false;
 
 							return;
 						};
@@ -480,13 +482,10 @@ export default class CSlider {
 							this.slideTo(toIndex, 'swipe');
 						}
 
-						setTimeout(() => {
-							this.swiping = false;
-						}, 10);
-
 						this.track?.removeEventListener(listeners.move, swipeMove);
 						document.removeEventListener(listeners.end, swipeEnd);
 						this.track?.removeEventListener(listeners.cancel, swipeEnd);
+						this.swiping = false;
 					}
 
 

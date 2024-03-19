@@ -53,7 +53,7 @@ Additionally, use the following data-attributes to determine the position of a s
 -	`[data-csl-order]` - the current **visual** position of the slide, from left to right (top to bottom for vertical sliders). The first slide has an order of 0. Note that this is not the same as the index of the slide in the DOM.
 -	`[data-csl-relative]` - the current **visual** position of the slide, relative to the current slide. The current slide has a relative position of 0. Slides to the right (top for vertical sliders) of the current slide have positive relative positions. Slides to the left (bottom for vertical sliders) of the current slide have negative relative positions.
 
-The same values also avalaible as corresponding CSS custom properties `--csl-oindex`, `--csl-order`, and `--csl-relative` for use in CSS calculations.
+The same values are also avalaible as corresponding CSS custom properties `--csl-oindex`, `--csl-order`, and `--csl-relative` for use in CSS calculations.
 
 CSlider will duplicate slides as necessary such that there are always enough to ensure smooth transitions. To access the index of a slide after duplication, simply use the `:nth-child()` pseudo-class (starts at 1).  
 **Note:** the index refers to the slide's position in the DOM, which does not change when the slider moves, since no deletion or duplication is done on move. However, resizing the viewport may append additional slides if necessary.

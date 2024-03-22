@@ -75,16 +75,16 @@ export default class CSlider {
 			return;
 		}
 
-		this.frame.classList.add('csl-frame');
-		this.frame.style.setProperty('--transition-speed', `${this.options.transitionSpeed}ms`);
+		this.frame.style.setProperty('--csl-transition-speed', `${this.options.transitionSpeed}ms`);
 		this.frame.classList.add(
+			'csl-frame',
 			this.options.vertical === true ? 'csl-vertical' : 'csl-horizontal',
 			this.options.fixedHeight === true ? 'csl-height-fixed' : 'csl-height-auto',
 			this.options.swipeNavigation === true ? 'csl-swipe' : 'csl-no-swipe',
 		);
 
 		if (this.options.swipeNavigation === true) {
-			for (let img of this.frame.querySelectorAll('img')) {
+			for (const img of this.frame.querySelectorAll('img')) {
 				img.setAttribute('draggable', 'false');
 			}
 		}
@@ -167,9 +167,8 @@ export default class CSlider {
 
 
 
-		// ========================================================================== FOCUS ON CLICK
+		// ========================================================================== MOVE ON CLICK
 		const focusOnSlide = (e, index) => {
-			console.log(this.swiping);
 			if (e.button === 0 && !this.swiping) {
 				this.slideTo(index);
 			}
@@ -338,7 +337,6 @@ export default class CSlider {
 
 			// ========================================================================== ON WINDOW RESIZE
 			this.resizer = () => {
-				console.log('resize');
 				let resizeTimer;
 				clearTimeout(resizeTimer);
 				resizeTimer = setTimeout(() => {
@@ -547,12 +545,12 @@ export default class CSlider {
 
 		if (swapAmount < 0) {
 			for (let i = 0; i < Math.abs(swapAmount); i++) {
-				this.slides[this.currentOrder[i]].style.setProperty('--transition-speed', '0ms');
+				this.slides[this.currentOrder[i]].style.setProperty('--csl-transition-speed', '0ms');
 			}
 		}
 		else {
 			for (let i = this.currentOrder.length - 1; i >= this.currentOrder.length - swapAmount; i--) {
-				this.slides[this.currentOrder[i]].style.setProperty('--transition-speed', '0ms');
+				this.slides[this.currentOrder[i]].style.setProperty('--csl-transition-speed', '0ms');
 			}
 		}
 
@@ -611,7 +609,7 @@ export default class CSlider {
 
 			requestAnimationFrame(() => {
 				requestAnimationFrame(() => {
-					item.style.removeProperty('--transition-speed');
+					item.style.removeProperty('--csl-transition-speed');
 				})
 			})
 		});

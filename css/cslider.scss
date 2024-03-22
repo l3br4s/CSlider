@@ -44,7 +44,7 @@
     &-item {
         max-width: 100cqw !important;
 		flex-shrink: 0;
-		transition: var(--transition-speed);
+		transition: var(--csl-transition-speed);
 
 		.csl-height-fixed & {
 			max-height: 100cqh !important;

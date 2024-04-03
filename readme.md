@@ -91,6 +91,9 @@ CSlider will duplicate slides as necessary such that there are always enough to 
 -	**moveOnClick (boolean)**  
 	Make slides clickable and move slider to the clicked slide if true.  
 	*default: true*
+-	**multiplier (number)**  
+	To ensure smooth transitions, slides will get duplicated until the track element is this times as wide as the frame.  
+	*default: 4*
 -	**pauseOnHover (boolean)**  
 	Pause autoplay on mouseover event.  
 	*default: true*

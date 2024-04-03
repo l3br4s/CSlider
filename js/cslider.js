@@ -16,6 +16,7 @@ export default class CSlider {
 	 * @param {string} options.buttonWrapperPrev - The selector for the previous button wrapper.
 	 * @param {boolean} options.fixedHeight - Whether to use a fixed height for the slider.
 	 * @param {boolean} options.moveOnClick - Whether to focus the slide when clicked.
+	 * @param {number} options.multiplier - How much longer the track should be than the frame.
 	 * @param {boolean} options.pauseOnHover - Whether to pause autoplay when the mouse is over the slider.
 	 * @param {boolean} options.singleMode - Whether to display only one slide at a time (slides will always fill the width of the container).
 	 * @param {number} options.startPosition - The number (index + 1) of the slide to start with.

@@ -41,6 +41,7 @@ export default class CSlider {
 			buttonWrapperPrev: target,
 			fixedHeight: true,
 			moveOnClick: true,
+			multiplier: 4,
 			pauseOnHover: true,
 			singleMode: false,
 			startPosition: 0,
@@ -146,7 +147,8 @@ export default class CSlider {
 				// DUPLICATE SLIDES IF THERE ARE NOT ENOUGH
 				let trackHTML = this.track.innerHTML;
 				if (this.trackSize > 0) {
-					const multiplier = options.vertical === true ? 5 : 4;
+					const multiplier = typeof options.multiplier === 'number' ? Math.max(options.multiplier, 1) : 4;
+					console.log(multiplier);
 					this.oldTrackSize = this.trackSize;
 
 					while (this.trackSize < this.frameInnerSize * multiplier) {

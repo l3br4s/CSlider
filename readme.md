@@ -56,7 +56,7 @@ Additionally, use the following data-attributes to determine the position of a s
 
 The same values are also avalaible as corresponding CSS custom properties `--csl-oindex`, `--csl-order`, and `--csl-relative` for use in CSS calculations.
 
-CSlider will duplicate slides as necessary such that there are always enough to ensure smooth transitions. To access the index of a slide after duplication, simply use the `:nth-child()` pseudo-class.  
+CSlider will duplicate slides as necessary such that there are always enough to ensure smooth transitions. To access a slide by its index after duplication, simply use the `:nth-child()` pseudo-class.  
 **Note:** the index refers to the slide's position in the DOM, which does not change when the slider moves, since no deletion or duplication is done on move. However, resizing the viewport may append additional slides if necessary.
 
 ## Options

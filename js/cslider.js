@@ -22,6 +22,7 @@ export default class CSlider {
 	 * @param {number} options.startPosition - The number (index + 1) of the slide to start with.
 	 * @param {boolean} options.swipeNavigation - Whether to enable swipe navigation.
 	 * @param {boolean} options.vertical - Whether to move the slides vertically.
+	 * @param {boolean} options.waitForMedia - Only initialize slider after all containing images have been loaded.
 	 * @param {boolean} options.wheelNavigation - Whether to enable wheel navigation.
 	 * @param {function} options.beforeMove - The callback function to be called before the slides are changed.
 	 * @param {function} options.afterMove - The callback function to be called after the slides are changed.
@@ -49,6 +50,7 @@ export default class CSlider {
 			swipeNavigation: true,
 			transitionSpeed: 600,
 			vertical: false,
+			waitForMedia: false,
 			wheelNavigation: false,
 			beforeMove() {return},
 			afterMove() {return},
@@ -362,13 +364,34 @@ export default class CSlider {
 			window.addEventListener('resize', this.resizer);
 		}
 
-		if (document.readyState === "complete") {
-			startSlider();
+
+
+		// ========================================================================== WAIT FOR IMAGES & START
+		if (this.options.waitForMedia === true) {
+			const media = this.frame.querySelectorAll('img');
+
+			if (media.length > 0) {
+				Promise.allSettled(
+					[...media].map((item) => {
+						return new Promise((resolve, reject) => {
+							item.onload = () => {
+								resolve();
+							}
+							item.onerror = () => {
+								reject();
+							}
+						})
+					})
+				).then(() => {
+					startSlider();
+				});
+			}
+			else {
+				startSlider();
+			}
 		}
 		else {
-			window.addEventListener('load', () => {
-				startSlider();
-			});
+			startSlider();
 		}
 
 

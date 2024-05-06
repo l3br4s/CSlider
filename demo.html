@@ -18,6 +18,7 @@
 			buttonTextPrev: 'PREV',
 			buttonTextNext: 'NEXT',
 			multiplier: 4,
+			waitForMedia: true,
 			afterTransition: () => {console.log('after transition!')},
 		});
 		const test2 = new CSlider('#test-2', {
@@ -34,11 +35,11 @@
     <div id="test" data-slider="test">
         <article style="width: 450px; height: 120px">
             0
-            <div></div>
+            <div><img src=".wip/barcelona.jpg" alt=""></div>
         </article>
         <article style="width: 300px; height: 200px">
             1
-            <div></div>
+            <div><img src=".wip/dublin2.jpg" alt=""></div>
         </article>
         <article style="width: 140px; height: 100px">
             2
@@ -50,7 +51,7 @@
         </article>
         <article style="width: 450px; height: 320px">
             4
-            <div></div>
+            <div><img src=".wip/london-street.jpg" alt=""></div>
         </article>
         <article style="width: 300px; height: 90px">
             5
@@ -58,7 +59,7 @@
         </article>
         <article style="width: 140px; height: 110px">
             6
-            <div></div>
+            <div><img src=".wip/stockholm.jpg" alt=""></div>
         </article>
         <article style="width: 220px; height: 30px">
             7

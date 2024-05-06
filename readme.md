@@ -112,6 +112,9 @@ CSlider will duplicate slides as necessary such that there are always enough to 
 -	**vertical (boolean)**  
 	Enable vertical mode. Affects arrow key and wheel navigation, button orientation, fixedHeight and singleMode logic.  
 	*default: false*
+-	**waitForMedia (boolean)**  
+	Only initialize slider after all containing images have been loaded. Useful if slide size depends on unknown image dimensions.  
+	*default: false*
 -	**wheelNavigation (boolean)**  
 	Enable navigation via mouse wheel on vertical sliders.  
 	*default: false*

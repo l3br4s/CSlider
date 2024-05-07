@@ -124,7 +124,7 @@ CSlider will duplicate slides as necessary such that there are always enough to 
 Callbacks can be defined as properties on the options object:
 
 ```js
-slider = new CSlider('.slider_element', {
+const slider = new CSlider('.slider_element', {
   onReady: () => {
     // do something
   }
@@ -155,7 +155,7 @@ slider.slideTo(2); // move to the third slide (of index 2)
 -	**autoplayStop()**  
 	Stop autoplay.
 -	**destroy()**  
-	Destroy the slider and restore the original DOM.
+	Destroy the slider, remove event listeners and restore the original DOM.
 -	**next()**  
 	Move to the next slide.
 -	**prev()**  

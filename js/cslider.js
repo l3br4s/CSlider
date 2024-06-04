@@ -374,6 +374,9 @@ export default class CSlider {
 				Promise.allSettled(
 					[...media].map((item) => {
 						return new Promise((resolve, reject) => {
+							if (item.complete) {
+								resolve();
+							}
 							item.onload = () => {
 								resolve();
 							}

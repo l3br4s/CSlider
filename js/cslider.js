@@ -151,7 +151,6 @@ export default class CSlider {
 				let trackHTML = this.track.innerHTML;
 				if (this.trackSize > 0) {
 					const multiplier = typeof options.multiplier === 'number' ? Math.max(options.multiplier, 1) : 4;
-					console.log(multiplier);
 					this.oldTrackSize = this.trackSize;
 
 					while (this.trackSize < this.frameInnerSize * multiplier) {
@@ -159,7 +158,7 @@ export default class CSlider {
 						this.trackSize = this.options.vertical === true ? this.track.offsetHeight : this.track.offsetWidth;
 
 						if (this.oldTrackSize === this.trackSize) {
-							console.log('Error duplicating slides: Track size did not change after insertion. Duplication aborted.');
+							console.warn('Error duplicating slides: Track size did not change after insertion. Duplication aborted.');
 							break;
 						}
 					}
@@ -512,7 +511,8 @@ export default class CSlider {
 						this.track?.removeEventListener(listeners.move, swipeMove);
 						document.removeEventListener(listeners.end, swipeEnd);
 						this.track?.removeEventListener(listeners.cancel, swipeEnd);
-						this.swiping = false;
+
+						requestAnimationFrame(() => this.swiping = false);
 					}
 
 

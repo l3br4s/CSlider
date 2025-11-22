@@ -1,4 +1,4 @@
-export default class CSlider {
+class CSlider {
 
 	/**
 	 * Initializes a new Slider object.
@@ -14,8 +14,11 @@ export default class CSlider {
 	 * @param {string} options.buttonTextPrev - The text for the previous button.
 	 * @param {string} options.buttonWrapperNext - The selector for the next button wrapper.
 	 * @param {string} options.buttonWrapperPrev - The selector for the previous button wrapper.
+	 * @param {boolean} options.dots - Whether to show navigation dots.
+	 * @param {string} options.dotsWrapper - The selector for the dots wrapper.
 	 * @param {boolean} options.fixedHeight - Whether to use a fixed height for the slider.
 	 * @param {boolean} options.moveOnClick - Whether to focus the slide when clicked.
+	 * @param {boolean} options.moveOnDots - Whether to focus the slide when a dot is clicked.
 	 * @param {number} options.multiplier - How much longer the track should be than the frame.
 	 * @param {boolean} options.pauseOnHover - Whether to pause autoplay when the mouse is over the slider.
 	 * @param {boolean} options.singleMode - Whether to display only one slide at a time (slides will always fill the width of the container).
@@ -41,8 +44,11 @@ export default class CSlider {
 			buttonTextPrev: `<svg width="50" height="50" viewBox="0 0 100 100"><path fill="none" stroke="#000" stroke-width="8" d="M71.48 95L26.494 49.994 71.506 5" /></svg>`,
 			buttonWrapperNext: target,
 			buttonWrapperPrev: target,
+			dots: false,
+			dotsWrapper: target,
 			fixedHeight: true,
 			moveOnClick: true,
+			moveOnDots: true,
 			multiplier: 4,
 			pauseOnHover: true,
 			singleMode: false,
@@ -65,16 +71,20 @@ export default class CSlider {
 		}
 
 
+		this.resizeDebounce = this.options.transitionSpeed + 100;
+
 
 		// ========================================================================== CREATE TRACK
 		this.frame = document.querySelector(target);
-		this.originalFrame = this.frame.cloneNode(true);
+		this._originalFrame = this.frame.cloneNode(true);
+		this._originalLength = this.frame.children.length;
+		this._currentOriginalIndex = this.options.startPosition - 1;
 
 		if (!this.frame) {
 			console.error('CSlider initialization error: Target element not found');
 			return;
 		}
-		if (this.frame.children.length < 2) {
+		if (this._originalLength < 2) {
 			console.error('CSlider initialization error: Needs at least 2 slides');
 			return;
 		}
@@ -108,8 +118,6 @@ export default class CSlider {
 			this.track.appendChild(this.frame.firstChild);
 		}
 		this.frame.appendChild(this.track);
-
-		this.originalLength = this.frame.querySelectorAll('.csl-item').length;
 
 
 		// ========================================================================== CALCULATE WIDTHS
@@ -192,9 +200,9 @@ export default class CSlider {
 
 		// ========================================================================== SET START POSITION & ORDER
 		const setStartPosition = () => {
-			this.currentIndex = this.options.startPosition;
-			this.currentSlide = this.slides[this.currentIndex];
-			this.currentSlide.classList.add('csl-current');
+			this._currentIndex = this.options.startPosition;
+			this._currentSlide = this.slides[this._currentIndex];
+			this._currentSlide.classList.add('csl-current');
 		}
 
 
@@ -209,7 +217,7 @@ export default class CSlider {
 
 		// ========================================================================== GET CURRENT ORDER
 		this.getCurrentOrder = () => {
-			let firstIndex = this.currentIndex - Math.floor((this.slides.length - 1) / 2);
+			let firstIndex = this._currentIndex - Math.floor((this.slides.length - 1) / 2);
 			if (firstIndex < 0) firstIndex += this.slides.length;
 
 			let i = 0;
@@ -288,6 +296,38 @@ export default class CSlider {
 
 
 
+			// ========================================================================== DOTS
+			if (this.options.dots === true) {
+				const createDots = () => {
+					const dotsWrapper = document.querySelector(this.options.dotsWrapper)
+
+					if (dotsWrapper) {
+						const dots = document.createElement('div');
+						dots.classList.add('csl-dots');
+						this.dots = dotsWrapper.appendChild(dots);
+
+						for (let i = 0; i < this.originalLength; i++) {
+							const dotType = this.options.moveOnDots ? 'button' : 'span';
+							const dot = document.createElement(dotType);
+							dot.classList.add('csl-dot');
+							dots.appendChild(dot);
+
+							if (this.options.moveOnDots === true) {
+								dot.addEventListener('click', () => {
+									this.slideTo(i);
+								});
+							}
+						}
+					}
+					else {
+						console.warn('Dots wrapper element not found. Dots will not be created.');
+					}
+				}
+				createDots();
+			}
+
+
+
 			// ========================================================================== ARROW KEYS
 			if (this.options.arrowKeys === true) {
 				this.frame.setAttribute('tabindex', '0');
@@ -351,14 +391,14 @@ export default class CSlider {
 					requestAnimationFrame(() => {
 						setOrder();
 						this.getCurrentOrder();
-						this.slideTo(this.currentIndex, 'resize');
+						this.slideTo(this._currentIndex, 'resize');
 
 						requestAnimationFrame(() => {
 							addmoveOnClick();
 							this.frame.classList.remove('notrans');
 						})
 					})
-				}, 100)
+				}, this.resizeDebounce)
 			}
 			window.addEventListener('resize', this.resizer);
 		}
@@ -470,7 +510,7 @@ export default class CSlider {
 						document.removeEventListener('mouseup', swipeEnd);
 
 						if (Math.abs(origin - endPoint) < 30) {
-							this.slideTo(this.currentIndex);
+							this.slideTo(this._currentIndex);
 
 							this.track?.removeEventListener(listeners.move, swipeMove);
 							document.removeEventListener(listeners.end, swipeEnd);
@@ -496,7 +536,7 @@ export default class CSlider {
 						const closestSlideIndex = slideCenterPoints.indexOf(Math.min(...slideCenterPoints));
 						const toIndex = $slides.indexOf($slides[closestSlideIndex]);
 
-						if (this.currentIndex === toIndex) {
+						if (this._currentIndex === toIndex) {
 							if (origin - endPoint > 0) {
 								this.next();
 							}
@@ -538,6 +578,19 @@ export default class CSlider {
 				this.autoplayPaused = false;
 			});
 		}
+
+
+
+		// ========================================================================== SET ACTIVE DOT
+		this.setActiveDot = () => {
+			if (this.options.dots === true) {
+				const dots = document.querySelectorAll(this.options.dotsWrapper + ' .csl-dot');
+				for (let dot of dots) {
+					dot.classList.remove('csl-current')
+				};
+				dots[this._currentOriginalIndex].classList.add('csl-current');
+			}
+		}
 	}
 
 
@@ -570,7 +623,7 @@ export default class CSlider {
 		if (!init) this.options.beforeMove()
 
 		// ---------------------------------------------------------------------- MARK SLIDES THAT NEED TO CHANGE SIDES
-		const swapAmount = this.currentOrder.indexOf(this.currentIndex) - this.currentOrder.indexOf(toIndex);
+		const swapAmount = this.currentOrder.indexOf(this._currentIndex) - this.currentOrder.indexOf(toIndex);
 
 		if (swapAmount < 0) {
 			for (let i = 0; i < Math.abs(swapAmount); i++) {
@@ -585,16 +638,16 @@ export default class CSlider {
 
 
 		// ---------------------------------------------------------------------- SET SLIDE CLASSES & MOVE SLIDES
-		this.currentSlide = this.slides[toIndex];
+		this._currentSlide = this.slides[toIndex];
 
 		const currentOffset = this.options.vertical === true
-			? this.currentSlide.offsetTop - this.frameInnerSize / 2 + this.currentSlide.offsetHeight / 2
-			: this.currentSlide.offsetLeft - this.frameInnerSize / 2 + this.currentSlide.offsetWidth / 2;
+			? this._currentSlide.offsetTop - this.frameInnerSize / 2 + this._currentSlide.offsetHeight / 2
+			: this._currentSlide.offsetLeft - this.frameInnerSize / 2 + this._currentSlide.offsetWidth / 2;
 		// index thresholds at which slides are wrapped around
 		const overflowRight = toIndex + Math.floor(this.slides.length / 2);
 		const overflowLeft = toIndex + 1 - Math.ceil(this.slides.length / 2);
 
-		this.currentSlide.addEventListener('transitionend', () => {
+		this._currentSlide.addEventListener('transitionend', () => {
 			this.options.afterTransition();
 		}, { once: true });
 
@@ -613,8 +666,7 @@ export default class CSlider {
 			}
 			else {
 				item.style.setProperty('--csl-translate', `${currentOffset * -1}px`);
-				item.classList.remove('csl-swapped-rtl');
-				item.classList.remove('csl-swapped-ltr');
+				item.classList.remove('csl-swapped-rtl', 'csl-swapped-ltr');
 			}
 
 			// add 'csl-after' class:
@@ -648,14 +700,16 @@ export default class CSlider {
 
 		this.slides[nextSlideIndex].classList.add('csl-next', 'csl-adjacent');
 		this.slides[previousSlideIndex].classList.add('csl-prev', 'csl-adjacent');
-		this.slides[this.currentIndex].classList.remove('csl-current');
+		this.slides[this._currentIndex].classList.remove('csl-current');
 
-		this.currentSlide.classList.remove('csl-after', 'csl-before');
-		this.currentSlide.classList.add('csl-current');
-		this.currentIndex = toIndex;
-		this.currentOriginalIndex = toIndex % this.originalLength;
+		this._currentSlide.classList.remove('csl-after', 'csl-before');
+		this._currentSlide.classList.add('csl-current');
+		this._currentIndex = toIndex;
+		this._currentOriginalIndex = toIndex % this._originalLength;
 
 		this.getCurrentOrder();
+		this.setActiveDot();
+
 
 		if (!init) {
 			this.options.afterMove();
@@ -673,11 +727,11 @@ export default class CSlider {
 
 	// ========================================================================== PREV / NEXT METHODS
 	prev() {
-		this.slideTo(this.currentIndex - 1 < 0 ? this.slides.length - 1 : this.currentIndex - 1);
+		this.slideTo(this._currentIndex - 1 < 0 ? this.slides.length - 1 : this._currentIndex - 1);
 	}
 
 	next() {
-		this.slideTo(this.currentIndex + 1 > this.slides.length - 1 ? 0 : this.currentIndex + 1);
+		this.slideTo(this._currentIndex + 1 > this.slides.length - 1 ? 0 : this._currentIndex + 1);
 	}
 
 
@@ -685,7 +739,7 @@ export default class CSlider {
 	// ========================================================================== AUTOPLAY METHODS
 	autoplayStart() {
 		this.options.autoplay = true;
-		this.slideTo(this.currentIndex);
+		this.slideTo(this._currentIndex);
 	}
 
 	autoplayStop() {
@@ -695,11 +749,26 @@ export default class CSlider {
 
 
 
+	// ========================================================================== Getters
+	get currentSlide() {
+		return this.slides[this._currentIndex];
+	}
+
+	get currentIndex() {
+		return this._currentIndex;
+	}
+
+	get originalLength() {
+		return this._originalLength;
+	}
+
+
+
 	// ========================================================================== DESTROY
 	destroy() {
 		this.nextButton.remove();
 		this.prevButton.remove();
-		this.frame.insertAdjacentElement('beforebegin', this.originalFrame);
+		this.frame.insertAdjacentElement('beforebegin', this._originalFrame);
 		this.frame.remove();
 		window.removeEventListener('resize', this.resizer);
 	}

@@ -12,18 +12,13 @@ CSlider is a pure JS infinite slider with minimal CSS overhead and no default th
 
 Copy `cslider.min.js` and `cslider.min.css` into your project.
 
-In the `<head>` of your HTML, add the following:
+Add the css an js to the `<head>` of your HTML:
 
-```js
-<link rel="stylesheet" href="css/cslider.min.css">
-<script type="module" defer>
-  import CSlider from './js/cslider.min.js';
-  const slider = new CSlider('.slider_element', options);
-</script>
+```html
+<link rel="stylesheet" href="cslider.min.css">
+<script src="cslider.min.js"></script>
 ```
-
-where `.slider_element` is the CSS selector for your slider element, and `options` is an optional object containing [options](#options) and [callbacks](#callbacks) for the slider.  
-  
+ 
 In the `<body>` of your HTML, add your slides as direct children of the `.slider_element` :
 
 ```html
@@ -34,6 +29,15 @@ In the `<body>` of your HTML, add your slides as direct children of the `.slider
 </div>
 ```
 
+Create a new slider instance:
+
+```js
+const slider = new CSlider('.slider_element', options);
+```
+
+where `.slider_element` is the CSS selector for your slider element, and `options` is an optional object containing [options](#options) and [callbacks](#callbacks) for the slider.  
+
+
 ## Styling
 
 Use the following classes to style your slides:
@@ -41,7 +45,7 @@ Use the following classes to style your slides:
 -	`.csl-adjacent` - both the next and previous slides
 -	`.csl-after` - slides that appear after the current slide
 -	`.csl-before` - slides that appear before the current slide
--	`.csl-current` - the current slide
+-	`.csl-current` - the current slide / dot
 -	`.csl-item` - any slide
 -	`.csl-next` - the next slide
 -	`.csl-prev` - the previous slide
@@ -61,61 +65,69 @@ CSlider will duplicate slides as necessary such that there are always enough to 
 
 ## Options
 
--	**arrowKeys (boolean)**  
+-	**`arrowKeys` (boolean)**  
 	Enable navigation via arrow keys. Uses left/right keys for horizontal sliders and up/down keys for vertical sliders.  
 	*default: true*
--	**autoplay (boolean)**  
+-	**`autoplay` (boolean)**  
 	Enable autoplay.  
 	*default: false*
--	**autoplaySpeed (number)**  
+-	**`autoplaySpeed` (number)**  
 	Speed at which slides change when autoplay is enabled, in milliseconds.  
 	*default: 6000*
--	**buttons (boolean)**  
+-	**`buttons` (boolean)**  
 	Render *previous/next* navigation buttons.  
 	*default: true*
--	**buttonTextNext (string)**  
+-	**`buttonTextNext` (string)**  
 	Text to show on the *next* button.  
 	*defaults to an svg icon*
--	**buttonTextPrev (string)**  
+-	**`buttonTextPrev` (string)**  
 	Text to show on the *previous* button.  
 	*defaults to an svg icon*
--	**buttonWrapperNext (string)**  
+-	**`buttonWrapperNext` (string)**  
 	CSS Selector of the element to which the *next* button should be appended.  
 	*defaults to the* `.slider_element` *to which the slider is attached*
--	**buttonWrapperPrev (string)**  
+-	**`buttonWrapperPrev` (string)**  
 	CSS Selector of the element to which the *previous* button should be appended.  
 	*defaults to the* `.slider_element` *to which the slider is attached*
--	**fixedHeight (boolean)**  
+-   **`dots` (boolean)**  
+	Render navigation dots.
+-	**`dotWrapper` (string)**  
+	CSS Selector of the element to which the navigation dots should be appended.  
+	*defaults to the* `.slider_element` *to which the slider is attached*
+-	**`fixedHeight` (boolean)**  
 	Enable fixed height and make slides fit within the height of the slider. Must set a height via css for the `.slider_element`. If false, the height of the `.slider_element` will grow to match the tallest slide. Has no effect on vertical sliders.  
 	*default: true*
--	**moveOnClick (boolean)**  
+-	**`moveOnClick` (boolean)**  
 	Make slides clickable and move slider to the clicked slide if true.  
 	*default: true*
--	**multiplier (number)**  
+-   **`moveOnDots` (boolean)**  
+	Make navigation dots clickable and move slider to the clicked slide if true.  
+	*default: true*
+-	**`multiplier` (number)**  
 	To ensure smooth transitions, slides will get duplicated until the track element is this times as wide as the frame.  
 	*default: 4*
--	**pauseOnHover (boolean)**  
+-	**`pauseOnHover` (boolean)**  
 	Pause autoplay on mouseover event.  
 	*default: true*
--	**singleMode (boolean)**  
+-	**`singleMode` (boolean)**  
 	Make each slide fill the width of the slider (or the height if slider is vertical).  
 	*default: false*
--	**startPosition (number)**  
+-	**`startPosition` (number)**  
 	Index of the slide to center on initial load. Indices start from 0.  
 	*default: 0*
--	**swipeNavigation (boolean)**  
+-	**`swipeNavigation` (boolean)**  
 	Enable navigation via swiping (touch) or dragging (mouse).  
 	*default: true*
--	**transitionSpeed (number)**  
+-	**`transitionSpeed` (number)**  
 	Speed of the slider transition, in milliseconds.  
 	*default: 600*
--	**vertical (boolean)**  
+-	**`vertical` (boolean)**  
 	Enable vertical mode. Affects arrow key and wheel navigation, button orientation, fixedHeight and singleMode logic.  
 	*default: false*
--	**waitForMedia (boolean)**  
+-	**`waitForMedia` (boolean)**  
 	Only initialize slider after all containing images have been loaded. Useful if slide size depends on unknown image dimensions.  
 	*default: false*
--	**wheelNavigation (boolean)**  
+-	**`wheelNavigation` (boolean)**  
 	Enable navigation via mouse wheel on vertical sliders.  
 	*default: false*
 

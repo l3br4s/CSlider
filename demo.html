@@ -9,25 +9,8 @@
     <link rel="stylesheet" href="css/cslider.min.css">
 	<link rel="stylesheet" href="css/demo.min.css">
 
-	<script type="module" defer>
-		import CSlider from './js/cslider.js';
+	<script src="js/cslider.min.js"></script>
 
-		const test = new CSlider('#test', {
-			buttonWrapperPrev: '.buttonwrapper',
-			buttonWrapperNext: '.buttonwrapper',
-			buttonTextPrev: 'PREV',
-			buttonTextNext: 'NEXT',
-			multiplier: 4,
-			waitForMedia: true,
-			afterTransition: () => {console.log('after transition!')},
-		});
-		const test2 = new CSlider('#test-2', {
-			startPosition: 2,
-			singleMode: true,
-			vertical: true,
-			fixedHeight: false,
-		});
-    </script>
 
 </head>
 <body>
@@ -88,5 +71,26 @@
         </article>
     </div>
 
+	<script>
+		// import CSlider from './js/cslider.js';
+
+		const test = new CSlider('#test', {
+			buttonWrapperPrev: '.buttonwrapper',
+			buttonWrapperNext: '.buttonwrapper',
+			buttonTextPrev: 'PREV',
+			buttonTextNext: 'NEXT',
+			multiplier: 4,
+			waitForMedia: true,
+			afterTransition: () => {console.log('after transition!')},
+		});
+		const test2 = new CSlider('#test-2', {
+			startPosition: 2,
+			singleMode: true,
+			vertical: true,
+			fixedHeight: false,
+		});
+	</script>
+
 </body>
+
 </html>

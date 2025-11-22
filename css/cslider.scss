@@ -93,6 +93,25 @@
 			}
 		}
     }
+	&-dots {
+		display: flex;
+		justify-content: center;
+		margin-top: 1em;
+		gap: .5em;
+	}
+	&-frame &-dots {
+		position: absolute;
+		inset-inline: 0;
+		bottom: 0;
+	}
+	&-dot {
+		all: unset;
+		width: .5em;
+		aspect-ratio: 1;
+		background: currentColor;
+	}
 }
 
-
+button.csl-dot {
+	cursor: pointer;
+}
